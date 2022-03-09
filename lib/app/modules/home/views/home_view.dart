@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:to_do/app/views/views/editview_view.dart';
 import 'package:to_do/app/views/views/todoveiw_view.dart';
 import 'package:to_do/main.dart';
 
@@ -19,9 +20,6 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(
-          Icons.add,
-        ),
         onPressed: () {
           Get.toNamed(TodoveiwView.id);
         },
@@ -31,17 +29,37 @@ class HomeView extends GetView<HomeController> {
           itemBuilder: (context, index) => Dismissible(
             key: UniqueKey(),
             background: Container(
-              color: Colors.green,
+              color: Colors.deepOrange,
               child: const Icon(
                 Icons.delete,
                 color: Colors.white,
               ),
             ),
-            onDismissed: (_){
+            onDismissed: (_) {
               homeController.todo.removeAt(index);
-              Get.snackbar('Remove', 'Task was succesfully delete')
+              Get.snackbar('Remove!', "Task was succesfully Delete",
+                  snackPosition: SnackPosition.BOTTOM);
             },
-        ) 
+            child: ListTile(
+              title: Text(
+                homeController.todo[index].content!,
+              ),
+              trailing: IconButton(
+                onPressed: () => Get.to(() => EditviewView(index: index)),
+                icon: const Icon(Icons.edit),
+              ),
+              leading: Checkbox(
+                value: homeController.todo[index].done,
+                onChanged: (neWvalue) {
+                  var todo = homeController.todo[index];
+                  todo.done = neWvalue!;
+                  homeController.todo[index] = todo;
+                },
+              ),
+            ),
+          ),
+          itemCount: homeController.todo.length,
+        ),
       ),
     );
   }

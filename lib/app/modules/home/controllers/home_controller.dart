@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:/to_do/app/modules/home/todo_model.dart';
+import '../todo_model.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
